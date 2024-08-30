@@ -3,6 +3,14 @@
 
 int main(void)
 {  
-    printf("Hello World from program %d\n", getpid());  
+    char *name = (char*)malloc(16*sizeof(char));
+    int r = getpname(name, 16);
+
+    if (r == -1) {
+        printf("No pude leer el nombre!");
+        exit(1);
+    }
+
+    printf("Hello World from program %s (%d)\n", name, getpid());  
     exit(0);
 }
