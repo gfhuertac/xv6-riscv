@@ -22,7 +22,7 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int getname(char *buf, int size);
+int getname(const char*, int);
 
 // ulib.c
 int stat(const char*, struct stat*);
