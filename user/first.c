@@ -8,6 +8,11 @@
 int main(int argc, char *argv[]) 
 { 
     printf("My first xv6 program learnt at GFG\n"); 
+
+    char buf[16];
+    getname(buf, sizeof(buf));
+    printf("Process name: %s\n", buf);
+  
     exit(0); 
 } 
 
