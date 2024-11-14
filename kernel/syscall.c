@@ -101,6 +101,8 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
+extern uint64 sys_getppid(void);
+extern uint64 sys_getancestor(void);
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -126,6 +128,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_getppid] sys_getppid,
+[SYS_getancestor] sys_getancestor,
 };
 
 void
@@ -144,4 +148,27 @@ syscall(void)
             p->pid, p->name, num);
     p->trapframe->a0 = -1;
   }
+}
+
+int sys_getppid(void) {
+    struct proc *p = myproc();
+    return p->parent->pid; 
+}
+
+
+int sys_getancestor(void) {
+    int n;
+    if (argint(0, &n) < 0) { 
+        return -1;
+    }
+
+    struct proc *p = myproc();  
+    for (int i = 0; i < n; i++) {
+        if (p->parent == 0) { 
+            return -1;
+        }
+        p = p->parent; 
+    }
+
+    return p->pid; 
 }
